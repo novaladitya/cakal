@@ -69,144 +69,142 @@ class _BerandaState extends State<Beranda> {
               left: 20.0,
               right: 20.0,
             ),
-            child: Expanded(
-              child: GridView.count(
-                crossAxisCount: 2,
-                crossAxisSpacing: 20.0,
-                mainAxisSpacing: 20.0,
-                physics: BouncingScrollPhysics(),
-                children: [
-                  Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
+            child: GridView.count(
+              crossAxisCount: 2,
+              crossAxisSpacing: 20.0,
+              mainAxisSpacing: 20.0,
+              physics: BouncingScrollPhysics(),
+              children: [
+                Card(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  elevation: 4,
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.pushNamed(
+                        context,
+                        '/daftarasupan',
+                        arguments: {
+                          'from': 'beranda',
+                        },
+                      );
+                    },
+                    borderRadius: BorderRadius.circular(8),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Image.asset(
+                          'assets/images/cookies.png',
+                          width: 100,
+                          height: 100,
+                        ),
+                        Text(
+                          'Daftar Asupan',
+                          style: TextStyle(
+                            color: Color.fromRGBO(5, 102, 106, 1),
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16.0,
+                          ),
+                        )
+                      ],
                     ),
-                    elevation: 4,
-                    child: InkWell(
-                      onTap: () {
-                        Navigator.pushNamed(
-                          context,
-                          '/daftarasupan',
+                  ),
+                ),
+                Card(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  elevation: 4,
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.pushNamed(context, '/daftarkegiatan',
                           arguments: {
                             'from': 'beranda',
-                          },
-                        );
-                      },
-                      borderRadius: BorderRadius.circular(8),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Image.asset(
-                            'assets/images/cookies.png',
-                            width: 100,
-                            height: 100,
+                          });
+                    },
+                    borderRadius: BorderRadius.circular(8),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Image.asset(
+                          'assets/images/run.png',
+                          width: 100,
+                          height: 100,
+                        ),
+                        Text(
+                          'Daftar Kegiatan',
+                          style: TextStyle(
+                            color: Color.fromRGBO(5, 102, 106, 1),
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16.0,
                           ),
-                          Text(
-                            'Daftar Asupan',
-                            style: TextStyle(
-                              color: Color.fromRGBO(5, 102, 106, 1),
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16.0,
-                            ),
-                          )
-                        ],
-                      ),
+                        )
+                      ],
                     ),
                   ),
-                  Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    elevation: 4,
-                    child: InkWell(
-                      onTap: () {
-                        Navigator.pushNamed(context, '/daftarkegiatan',
-                            arguments: {
-                              'from': 'beranda',
-                            });
-                      },
-                      borderRadius: BorderRadius.circular(8),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Image.asset(
-                            'assets/images/run.png',
-                            width: 100,
-                            height: 100,
+                ),
+                Card(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  elevation: 4,
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.pushNamed(context, '/catatkalori');
+                    },
+                    borderRadius: BorderRadius.circular(8),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Image.asset(
+                          'assets/images/food.png',
+                          width: 100,
+                          height: 100,
+                        ),
+                        Text(
+                          'Catatan Kalori',
+                          style: TextStyle(
+                            color: Color.fromRGBO(5, 102, 106, 1),
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16.0,
                           ),
-                          Text(
-                            'Daftar Kegiatan',
-                            style: TextStyle(
-                              color: Color.fromRGBO(5, 102, 106, 1),
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16.0,
-                            ),
-                          )
-                        ],
-                      ),
+                        )
+                      ],
                     ),
                   ),
-                  Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    elevation: 4,
-                    child: InkWell(
-                      onTap: () {
-                        Navigator.pushNamed(context, '/catatkalori');
-                      },
-                      borderRadius: BorderRadius.circular(8),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Image.asset(
-                            'assets/images/food.png',
-                            width: 100,
-                            height: 100,
+                ),
+                Card(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  elevation: 4,
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.pushNamed(context, '/kalkulatorbmi');
+                    },
+                    borderRadius: BorderRadius.circular(8),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Image.asset(
+                          'assets/images/scale.png',
+                          width: 100,
+                          height: 100,
+                        ),
+                        Text(
+                          'Kalkulator BMI',
+                          style: TextStyle(
+                            color: Color.fromRGBO(5, 102, 106, 1),
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16.0,
                           ),
-                          Text(
-                            'Catatan Kalori',
-                            style: TextStyle(
-                              color: Color.fromRGBO(5, 102, 106, 1),
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16.0,
-                            ),
-                          )
-                        ],
-                      ),
+                        )
+                      ],
                     ),
                   ),
-                  Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    elevation: 4,
-                    child: InkWell(
-                      onTap: () {
-                        Navigator.pushNamed(context, '/kalkulatorbmi');
-                      },
-                      borderRadius: BorderRadius.circular(8),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Image.asset(
-                            'assets/images/scale.png',
-                            width: 100,
-                            height: 100,
-                          ),
-                          Text(
-                            'Kalkulator BMI',
-                            style: TextStyle(
-                              color: Color.fromRGBO(5, 102, 106, 1),
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16.0,
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
           )
         ],

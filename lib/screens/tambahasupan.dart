@@ -57,11 +57,17 @@ class _TambahAsupanState extends State<TambahAsupan>
           ),
           Container(
             width: double.infinity,
-            child: FlatButton(
+            child: ElevatedButton(
               child: Text(
-                "Tambah Asupan",
+                "TAMBAH ASUPAN",
+                style: TextStyle(color: Color.fromRGBO(252, 244, 224, 1)),
               ),
-              color: Color.fromRGBO(5, 102, 106, 1),
+              style: ElevatedButton.styleFrom(
+                  primary: Color.fromRGBO(5, 102, 106, 1),
+                  textStyle:
+                      TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15.0))),
               onPressed: () {},
             ),
             padding: EdgeInsets.all(30),
