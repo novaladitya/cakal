@@ -29,6 +29,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   charts_flutter: ^0.10.0
   sqflite: ^2.0.0+3
+  flappy_search_bar_fork: ^1.7.4
 
 dev_dependencies:
   flutter_test:

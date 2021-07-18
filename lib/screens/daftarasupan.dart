@@ -6,6 +6,28 @@ class DaftarAsupan extends StatefulWidget {
 }
 
 class _DaftarAsupanState extends State<DaftarAsupan> {
+  TextEditingController _searchController = TextEditingController();
+
+  static List<String> mainDataList = [
+    "Apple",
+    "Apricot",
+    "Banana",
+    "Blackberry",
+    "Coconut",
+    "Date",
+  ];
+
+  //copy data to new list
+  List<String> newDataList = List.from(mainDataList);
+
+  onItemChanged(String value) {
+    setState(() {
+      newDataList = mainDataList
+          .where((string) => string.toLowerCase().contains(value.toLowerCase()))
+          .toList();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     Map arguments = ModalRoute.of(context).settings.arguments;
@@ -64,8 +86,8 @@ class _DaftarAsupanState extends State<DaftarAsupan> {
             Padding(
               padding:
                   const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              child: ListView(
+                shrinkWrap: true,
                 children: [
                   Card(
                     shape: RoundedRectangleBorder(
@@ -97,6 +119,8 @@ class _DaftarAsupanState extends State<DaftarAsupan> {
                               borderRadius: BorderRadius.circular(29.5),
                             ),
                             child: TextField(
+                              controller: _searchController,
+                              onChanged: onItemChanged,
                               decoration: InputDecoration(
                                 hintText: "Cari",
                                 icon: Icon(Icons.search_rounded),
@@ -107,6 +131,15 @@ class _DaftarAsupanState extends State<DaftarAsupan> {
                         ],
                       ),
                     ),
+                  ),
+                  ListView(
+                    shrinkWrap: true,
+                    children: newDataList.map((data) {
+                      return ListTile(
+                        title: Text(data),
+                        onTap: () => print(data),
+                      );
+                    }).toList(),
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(

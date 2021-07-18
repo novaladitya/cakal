@@ -64,8 +64,8 @@ class _DaftarKegiatanState extends State<DaftarKegiatan> {
             Padding(
               padding:
                   const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              child: ListView(
+                shrinkWrap: true,
                 children: [
                   Card(
                     shape: RoundedRectangleBorder(
