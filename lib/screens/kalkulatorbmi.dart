@@ -72,6 +72,10 @@ class _KalkulatorBmiState extends State<KalkulatorBmi>
         }
       },
       child: Scaffold(
+        appBar: AppBar(
+          title: Text("Kalkulator BMI"),
+          backgroundColor: Color.fromRGBO(5, 102, 106, 1),
+        ),
         body: ListView(
           padding: EdgeInsets.only(top: 100, bottom: 10),
           children: [

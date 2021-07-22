@@ -6,7 +6,6 @@ class Beranda extends StatefulWidget {
 }
 
 class _BerandaState extends State<Beranda> {
-  var asik = 10;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -71,8 +70,8 @@ class _BerandaState extends State<Beranda> {
             ),
             child: GridView.count(
               crossAxisCount: 2,
-              crossAxisSpacing: 20.0,
-              mainAxisSpacing: 20.0,
+              crossAxisSpacing: 5.0,
+              mainAxisSpacing: 5.0,
               physics: BouncingScrollPhysics(),
               children: [
                 Card(

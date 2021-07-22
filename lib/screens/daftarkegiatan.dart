@@ -1,4 +1,6 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class DaftarKegiatan extends StatefulWidget {
   @override
@@ -9,6 +11,12 @@ class _DaftarKegiatanState extends State<DaftarKegiatan> {
   @override
   Widget build(BuildContext context) {
     Map arguments = ModalRoute.of(context).settings.arguments;
+
+    Future getKegiatan() async {
+      final response = await http.get(
+          "http://10.0.2.2/apicakal/public/index.php/daftarkegiatan/getkegiatan");
+      return json.decode(response.body);
+    }
 
     return DefaultTabController(
       initialIndex: 0,
@@ -64,8 +72,7 @@ class _DaftarKegiatanState extends State<DaftarKegiatan> {
             Padding(
               padding:
                   const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
-              child: ListView(
-                shrinkWrap: true,
+              child: Column(
                 children: [
                   Card(
                     shape: RoundedRectangleBorder(
@@ -119,45 +126,59 @@ class _DaftarKegiatanState extends State<DaftarKegiatan> {
                           fontSize: 18.0),
                     ),
                   ),
-                  ListView(
-                    shrinkWrap: true,
-                    children: [
-                      Card(
-                        color: Colors.white.withOpacity(0.5),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                        child: InkWell(
-                          onTap: () {},
-                          borderRadius: BorderRadius.circular(10.0),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 6.0),
-                            child: ListTile(
-                              leading: Image.asset(
-                                'assets/images/run.png',
-                                height: 50,
-                                width: 50,
-                              ),
-                              title: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    "Lari, naik turun tangga",
-                                    style: TextStyle(
-                                        color: Color.fromRGBO(5, 102, 106, 1),
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  Icon(Icons.favorite_border_rounded),
-                                ],
-                              ),
-                              subtitle: Text("Kalori per jam : 900.00kkal"),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  )
+                  Container(
+                    constraints: BoxConstraints(
+                        minHeight: 100,
+                        minWidth: double.infinity,
+                        maxHeight: 330),
+                    child: FutureBuilder(
+                      future: getKegiatan(),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasError) print(snapshot.error);
+                        return snapshot.hasData
+                            ? ListView.builder(
+                                shrinkWrap: true,
+                                itemCount: snapshot.data.length,
+                                itemBuilder: (context, index) {
+                                  return Card(
+                                    color: Colors.white.withOpacity(0.5),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10.0),
+                                    ),
+                                    child: InkWell(
+                                      onTap: () {},
+                                      borderRadius: BorderRadius.circular(10.0),
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 6.0),
+                                        child: ListTile(
+                                            leading: Image.asset(
+                                              'assets/images/run.png',
+                                              height: 50,
+                                              width: 50,
+                                            ),
+                                            title: Text(
+                                              snapshot.data[index]['nama'],
+                                              style: TextStyle(
+                                                  color: Color.fromRGBO(
+                                                      5, 102, 106, 1),
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                            subtitle: Text(
+                                              'Kalori per jam : ' +
+                                                  snapshot.data[index]
+                                                      ['kalori'] +
+                                                  'kkal',
+                                            )),
+                                      ),
+                                    ),
+                                  );
+                                },
+                              )
+                            : Center(child: CircularProgressIndicator());
+                      },
+                    ),
+                  ),
                 ],
               ),
             ),
