@@ -7,7 +7,7 @@ packages:
       name: async
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.5.0"
+    version: "2.6.1"
   boolean_selector:
     dependency: transitive
     description:
@@ -151,6 +151,7 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.11.1"
+<<<<<<< HEAD
   percent_indicator:
     dependency: "direct main"
     description:
@@ -158,6 +159,8 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.0.1"
+=======
+>>>>>>> d83272aa6d451248cb439b41a158748cf1f45aa1
   sky_engine:
     dependency: transitive
     description: flutter
@@ -169,7 +172,7 @@ packages:
       name: source_span
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.8.0"
+    version: "1.8.1"
   sqflite:
     dependency: "direct main"
     description:
@@ -225,7 +228,7 @@ packages:
       name: test_api
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.2.19"
+    version: "0.3.0"
   typed_data:
     dependency: transitive
     description:

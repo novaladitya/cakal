@@ -69,125 +69,118 @@ class _DaftarKegiatanState extends State<DaftarKegiatan> {
         ),
         body: TabBarView(
           children: [
-            ListView(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 10.0, vertical: 10.0),
-                  child: Column(
-                    children: [
-                      Card(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                        color: Color.fromRGBO(5, 102, 106, 1),
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 10.0, vertical: 10.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Cari Kegiatanmu di Sini",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: Color.fromRGBO(252, 244, 224, 1),
-                                    fontSize: 18.0),
-                              ),
-                              SizedBox(
-                                height: 10.0,
-                              ),
-                              Container(
-                                padding: EdgeInsets.symmetric(
-                                  horizontal: 30,
-                                ),
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(29.5),
-                                ),
-                                child: TextField(
-                                  decoration: InputDecoration(
-                                    hintText: "Cari",
-                                    icon: Icon(Icons.search_rounded),
-                                    border: InputBorder.none,
-                                  ),
-                                ),
-                              )
-                            ],
+            Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
+              child: Column(
+                children: [
+                  Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    color: Color.fromRGBO(5, 102, 106, 1),
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 10.0, vertical: 10.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Cari Kegiatanmu di Sini",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Color.fromRGBO(252, 244, 224, 1),
+                                fontSize: 18.0),
                           ),
-                        ),
+                          SizedBox(
+                            height: 10.0,
+                          ),
+                          Container(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 30,
+                            ),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(29.5),
+                            ),
+                            child: TextField(
+                              decoration: InputDecoration(
+                                hintText: "Cari",
+                                icon: Icon(Icons.search_rounded),
+                                border: InputBorder.none,
+                              ),
+                            ),
+                          )
+                        ],
                       ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 10.0, horizontal: 14.0),
-                        child: Text(
-                          "Daftar Kegiatan",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: Color.fromRGBO(5, 102, 106, 1),
-                              fontSize: 18.0),
-                        ),
-                      ),
-                      Container(
-                        constraints: BoxConstraints(
-                            minHeight: 100,
-                            minWidth: double.infinity,
-                            maxHeight: 330),
-                        child: FutureBuilder(
-                          future: getKegiatan(),
-                          builder: (context, snapshot) {
-                            if (snapshot.hasError) print(snapshot.error);
-                            return snapshot.hasData
-                                ? ListView.builder(
-                                    shrinkWrap: true,
-                                    itemCount: snapshot.data.length,
-                                    itemBuilder: (context, index) {
-                                      return Card(
-                                        color: Colors.white.withOpacity(0.5),
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(10.0),
-                                        ),
-                                        child: InkWell(
-                                          onTap: () {},
-                                          borderRadius:
-                                              BorderRadius.circular(10.0),
-                                          child: Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                vertical: 6.0),
-                                            child: ListTile(
-                                                leading: Image.asset(
-                                                  'assets/images/run.png',
-                                                  height: 50,
-                                                  width: 50,
-                                                ),
-                                                title: Text(
-                                                  snapshot.data[index]['nama'],
-                                                  style: TextStyle(
-                                                      color: Color.fromRGBO(
-                                                          5, 102, 106, 1),
-                                                      fontWeight:
-                                                          FontWeight.bold),
-                                                ),
-                                                subtitle: Text(
-                                                  'Kalori per jam : ' +
-                                                      snapshot.data[index]
-                                                          ['kalori'] +
-                                                      'kkal',
-                                                )),
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                  )
-                                : Center(child: CircularProgressIndicator());
-                          },
-                        ),
-                      ),
-                    ],
+                    ),
                   ),
-                ),
-              ],
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 10.0, horizontal: 14.0),
+                    child: Text(
+                      "Daftar Kegiatan",
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Color.fromRGBO(5, 102, 106, 1),
+                          fontSize: 18.0),
+                    ),
+                  ),
+                  Container(
+                    constraints: BoxConstraints(
+                        minHeight: 100,
+                        minWidth: double.infinity,
+                        maxHeight: 330),
+                    child: FutureBuilder(
+                      future: getKegiatan(),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasError) print(snapshot.error);
+                        return snapshot.hasData
+                            ? ListView.builder(
+                                shrinkWrap: true,
+                                itemCount: snapshot.data.length,
+                                itemBuilder: (context, index) {
+                                  return Card(
+                                    color: Colors.white.withOpacity(0.5),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10.0),
+                                    ),
+                                    child: InkWell(
+                                      onTap: () {},
+                                      borderRadius: BorderRadius.circular(10.0),
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 6.0),
+                                        child: ListTile(
+                                            leading: Image.asset(
+                                              'assets/images/run.png',
+                                              height: 50,
+                                              width: 50,
+                                            ),
+                                            title: Text(
+                                              snapshot.data[index]['nama'],
+                                              style: TextStyle(
+                                                  color: Color.fromRGBO(
+                                                      5, 102, 106, 1),
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                            subtitle: Text(
+                                              'Kalori per jam : ' +
+                                                  snapshot.data[index]
+                                                      ['kalori'] +
+                                                  'kkal',
+                                            )),
+                                      ),
+                                    ),
+                                  );
+                                },
+                              )
+                            : Center(child: CircularProgressIndicator());
+                      },
+                    ),
+                  ),
+                ],
+              ),
             ),
             Padding(
               padding:

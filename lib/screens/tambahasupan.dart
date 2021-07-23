@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 
 class TambahAsupan extends StatefulWidget {
@@ -8,6 +9,7 @@ class TambahAsupan extends StatefulWidget {
 
 class _TambahAsupanState extends State<TambahAsupan> {
   final _key = new GlobalKey<FormState>();
+
   TextEditingController nama = new TextEditingController();
   TextEditingController merk = new TextEditingController();
   TextEditingController ukuranPerporsi = new TextEditingController();
@@ -15,7 +17,23 @@ class _TambahAsupanState extends State<TambahAsupan> {
   TextEditingController karbohidrat = new TextEditingController();
   TextEditingController lemak = new TextEditingController();
   TextEditingController protein = new TextEditingController();
+
   String _chosenValue;
+  int _initial = 0;
+
+  void getArguments(Map arg) {
+    if (arg != null) {
+      Map arguments = arg;
+      _chosenValue = arguments['jenis'];
+      nama.text = arguments['nama'];
+      merk.text = arguments['merk'];
+      ukuranPerporsi.text = arguments['ukuran_perporsi'];
+      kalori.text = arguments['kalori'];
+      karbohidrat.text = arguments['karbohidrat'];
+      lemak.text = arguments['lemak'];
+      protein.text = arguments['protein'];
+    }
+  }
 
   insertAsupan() {
     http.post(
@@ -33,13 +51,42 @@ class _TambahAsupanState extends State<TambahAsupan> {
     Navigator.pop(context);
   }
 
+  updateAsupan(id) {
+    http.post(
+        "http://10.0.2.2/apicakal/public/index.php/daftarasupan/updateasupan/$id",
+        body: {
+          "id": id,
+          "jenis": _chosenValue,
+          "nama": nama.text,
+          "merk": merk.text,
+          "ukuran_perporsi": ukuranPerporsi.text,
+          "kalori": kalori.text,
+          "karbohidrat": karbohidrat.text,
+          "lemak": lemak.text,
+          "protein": protein.text,
+        });
+    Navigator.pop(context);
+  }
+
+  checkForm([id = 0]) {
+    final form = _key.currentState;
+    if (form.validate()) {
+      form.save();
+      id == 0 ? insertAsupan() : updateAsupan(id);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     Map arguments = ModalRoute.of(context).settings.arguments;
+    if (_initial == 0) {
+      getArguments(arguments['data']);
+      _initial++;
+    }
 
     return Scaffold(
       appBar: AppBar(
-        title: arguments['from'] == 'daftar_asupan'
+        title: arguments['from'] == 'edit'
             ? Text("Edit Asupan")
             : Text("Tambah Asupan"),
         backgroundColor: Color.fromRGBO(5, 102, 106, 1),
@@ -81,9 +128,7 @@ class _TambahAsupanState extends State<TambahAsupan> {
                 ),
                 DropdownButton<String>(
                   focusColor: Colors.white,
-                  value: _chosenValue != null
-                      ? arguments['data']['jenis']
-                      : _chosenValue,
+                  value: _chosenValue,
                   elevation: 5,
                   style: TextStyle(color: Colors.white),
                   iconEnabledColor: Colors.black,
@@ -150,6 +195,12 @@ class _TambahAsupanState extends State<TambahAsupan> {
                         width: 210,
                         height: 20,
                         child: TextFormField(
+                          validator: (e) {
+                            if (e.isEmpty) {
+                              return "Masukkan nama asupan";
+                            }
+                            return null;
+                          },
                           style: TextStyle(
                             color: Colors.black,
                             fontSize: 15,
@@ -168,6 +219,12 @@ class _TambahAsupanState extends State<TambahAsupan> {
                         width: 145,
                         height: 20,
                         child: TextFormField(
+                          validator: (e) {
+                            if (e.isEmpty) {
+                              return "Masukkan merk asupan";
+                            }
+                            return null;
+                          },
                           style: TextStyle(
                             color: Colors.black,
                             fontSize: 15,
@@ -198,6 +255,16 @@ class _TambahAsupanState extends State<TambahAsupan> {
                   child: Container(
                     height: 20,
                     child: TextFormField(
+                      validator: (e) {
+                        if (e.isEmpty) {
+                          return "Masukkan ukuran perporsi asupan";
+                        }
+                        return null;
+                      },
+                      keyboardType: TextInputType.number,
+                      inputFormatters: [
+                        new FilteringTextInputFormatter.allow(RegExp("[0-9.]")),
+                      ],
                       style: TextStyle(
                         color: Colors.black,
                         fontSize: 15,
@@ -249,6 +316,17 @@ class _TambahAsupanState extends State<TambahAsupan> {
                         width: MediaQuery.of(context).size.width / 2 - 36,
                         height: 20,
                         child: TextFormField(
+                          validator: (e) {
+                            if (e.isEmpty) {
+                              return "Masukkan kalori asupan";
+                            }
+                            return null;
+                          },
+                          keyboardType: TextInputType.number,
+                          inputFormatters: [
+                            new FilteringTextInputFormatter.allow(
+                                RegExp("[0-9.]")),
+                          ],
                           style: TextStyle(
                             color: Colors.black,
                             fontSize: 15,
@@ -267,6 +345,17 @@ class _TambahAsupanState extends State<TambahAsupan> {
                         width: MediaQuery.of(context).size.width / 2 - 20,
                         height: 20,
                         child: TextFormField(
+                          validator: (e) {
+                            if (e.isEmpty) {
+                              return "Masukkan karbohidrat asupan";
+                            }
+                            return null;
+                          },
+                          keyboardType: TextInputType.number,
+                          inputFormatters: [
+                            new FilteringTextInputFormatter.allow(
+                                RegExp("[0-9.]")),
+                          ],
                           style: TextStyle(
                             color: Colors.black,
                             fontSize: 15,
@@ -320,6 +409,17 @@ class _TambahAsupanState extends State<TambahAsupan> {
                         width: MediaQuery.of(context).size.width / 2 - 36,
                         height: 20,
                         child: TextFormField(
+                          validator: (e) {
+                            if (e.isEmpty) {
+                              return "Masukkan lemak asupan";
+                            }
+                            return null;
+                          },
+                          keyboardType: TextInputType.number,
+                          inputFormatters: [
+                            new FilteringTextInputFormatter.allow(
+                                RegExp("[0-9.]")),
+                          ],
                           style: TextStyle(
                             color: Colors.black,
                             fontSize: 15,
@@ -338,6 +438,17 @@ class _TambahAsupanState extends State<TambahAsupan> {
                         width: MediaQuery.of(context).size.width / 2 - 20,
                         height: 20,
                         child: TextFormField(
+                          validator: (e) {
+                            if (e.isEmpty) {
+                              return "Masukkan protein asupan";
+                            }
+                            return null;
+                          },
+                          keyboardType: TextInputType.number,
+                          inputFormatters: [
+                            new FilteringTextInputFormatter.allow(
+                                RegExp("[0-9.]")),
+                          ],
                           style: TextStyle(
                             color: Colors.black,
                             fontSize: 15,
@@ -357,7 +468,9 @@ class _TambahAsupanState extends State<TambahAsupan> {
                   // height: 250,
                   child: ElevatedButton(
                     child: Text(
-                      "TAMBAH ASUPAN",
+                      arguments['from'] == 'edit'
+                          ? "EDIT ASUPAN"
+                          : "TAMBAH ASUPAN",
                       style: TextStyle(color: Color.fromRGBO(252, 244, 224, 1)),
                     ),
                     style: ElevatedButton.styleFrom(
@@ -365,9 +478,11 @@ class _TambahAsupanState extends State<TambahAsupan> {
                         textStyle: TextStyle(
                             fontSize: 14, fontWeight: FontWeight.bold),
                         shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15.0))),
+                            borderRadius: BorderRadius.circular(10.0))),
                     onPressed: () {
-                      insertAsupan();
+                      arguments['data'] != null
+                          ? checkForm(arguments['data']['id'])
+                          : checkForm();
                     },
                   ),
                   padding: EdgeInsets.all(30),

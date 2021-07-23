@@ -16,29 +16,38 @@ class _DaftarAsupanState extends State<DaftarAsupan> {
     return json.decode(response.body);
   }
 
+  Future getSomeAsupan($someNama) async {
+    final response = await http.get(
+        "http://10.0.2.2/apicakal/public/index.php/daftarasupan/getsomeasupan/$someNama");
+    return json.decode(response.body);
+  }
+
+  Future getFavAsupan() async {
+    final response = await http.get(
+        "http://10.0.2.2/apicakal/public/index.php/daftarasupan/getfavasupan");
+    return json.decode(response.body);
+  }
+
   deleteAsupan($id) {
     String idAsupan = $id;
     http.post(
         "http://10.0.2.2/apicakal/public/index.php/daftarasupan/deleteasupan/$idAsupan");
   }
 
-  static List<String> mainDataList = [
-    "Apple",
-    "Apricot",
-    "Banana",
-    "Blackberry",
-    "Coconut",
-    "Date",
-  ];
+  String fav;
+  updateFavAsupan(id) {
+    http.post(
+        "http://10.0.2.2/apicakal/public/index.php/daftarasupan/updatefavasupan/$id",
+        body: {
+          "id": id,
+          "favorit": fav,
+        });
+  }
 
-  //copy data to new list
-  List<String> newDataList = List.from(mainDataList);
-
+  String someNama = "";
   onItemChanged(String value) {
     setState(() {
-      newDataList = mainDataList
-          .where((string) => string.toLowerCase().contains(value.toLowerCase()))
-          .toList();
+      value == "" ? someNama = "" : someNama = value;
     });
   }
 
@@ -127,17 +136,17 @@ class _DaftarAsupanState extends State<DaftarAsupan> {
                               ),
                               Container(
                                 padding: EdgeInsets.symmetric(
-                                  horizontal: 30,
+                                  horizontal: 20,
                                 ),
                                 decoration: BoxDecoration(
                                   color: Colors.white,
-                                  borderRadius: BorderRadius.circular(29.5),
+                                  borderRadius: BorderRadius.circular(10.0),
                                 ),
                                 child: TextField(
                                   controller: _searchController,
                                   onChanged: onItemChanged,
                                   decoration: InputDecoration(
-                                    hintText: "Cari",
+                                    hintText: "Cari nama asupan",
                                     icon: Icon(Icons.search_rounded),
                                     border: InputBorder.none,
                                   ),
@@ -168,6 +177,10 @@ class _DaftarAsupanState extends State<DaftarAsupan> {
                                 Navigator.pushNamed(
                                   context,
                                   '/tambahasupan',
+                                  arguments: {
+                                    'from': 'tambah',
+                                    'data': null,
+                                  },
                                 ).then((_) => setState(() {}));
                               },
                               style: ElevatedButton.styleFrom(
@@ -182,15 +195,6 @@ class _DaftarAsupanState extends State<DaftarAsupan> {
                           ],
                         ),
                       ),
-                      // ListView(
-                      //   shrinkWrap: true,
-                      //   children: newDataList.map((data) {
-                      //     return ListTile(
-                      //       title: Text(data),
-                      //       onTap: () => print(data),
-                      //     );
-                      //   }).toList(),
-                      // ),
                       Padding(
                         padding: const EdgeInsets.symmetric(
                             vertical: 10.0, horizontal: 14.0),
@@ -208,7 +212,9 @@ class _DaftarAsupanState extends State<DaftarAsupan> {
                             minWidth: double.infinity,
                             maxHeight: 330),
                         child: FutureBuilder(
-                          future: getAsupan(),
+                          future: someNama == ""
+                              ? getAsupan()
+                              : getSomeAsupan(someNama),
                           builder: (context, snapshot) {
                             if (snapshot.hasError) print(snapshot.error);
                             return snapshot.hasData
@@ -228,7 +234,7 @@ class _DaftarAsupanState extends State<DaftarAsupan> {
                                               context,
                                               '/tambahasupan',
                                               arguments: {
-                                                'from': 'daftar_asupan',
+                                                'from': 'edit',
                                                 'data': snapshot.data[index],
                                               },
                                             ).then((_) => setState(() {}));
@@ -240,7 +246,7 @@ class _DaftarAsupanState extends State<DaftarAsupan> {
                                                     builder: (BuildContext alert) {
                                                       return AlertDialog(
                                                         title: Text(
-                                                          "Hapus Asupan",
+                                                          "Aksi untuk Asupan",
                                                           style: TextStyle(
                                                               color: Color
                                                                   .fromRGBO(
@@ -253,19 +259,94 @@ class _DaftarAsupanState extends State<DaftarAsupan> {
                                                                   FontWeight
                                                                       .bold),
                                                         ),
-                                                        content: Text(
-                                                          "Yakin menghapus daftar asupan ini?",
-                                                          style: TextStyle(
-                                                              color: Color
-                                                                  .fromRGBO(
-                                                                      0,
-                                                                      83,
-                                                                      66,
-                                                                      1.0),
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w500,
-                                                              fontSize: 17),
+                                                        content: Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .center,
+                                                          children: [
+                                                            Column(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .center,
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .center,
+                                                              mainAxisSize:
+                                                                  MainAxisSize
+                                                                      .min,
+                                                              children: [
+                                                                IconButton(
+                                                                  icon: snapshot.data[index]
+                                                                              [
+                                                                              'favorit'] ==
+                                                                          "yes"
+                                                                      ? Icon(
+                                                                          Icons
+                                                                              .favorite_rounded,
+                                                                          size:
+                                                                              35,
+                                                                          color:
+                                                                              Colors.red,
+                                                                        )
+                                                                      : Icon(
+                                                                          Icons
+                                                                              .favorite_border_rounded,
+                                                                          size:
+                                                                              35,
+                                                                        ),
+                                                                  onPressed:
+                                                                      () {
+                                                                    Navigator.pop(
+                                                                        alert);
+                                                                    fav == "no"
+                                                                        ? fav =
+                                                                            "yes"
+                                                                        : fav =
+                                                                            "no";
+                                                                    updateFavAsupan(
+                                                                        snapshot.data[index]
+                                                                            [
+                                                                            'id']);
+                                                                  },
+                                                                ),
+                                                                Text(
+                                                                    "Favoritkan"),
+                                                              ],
+                                                            ),
+                                                            SizedBox(
+                                                              width: 40,
+                                                            ),
+                                                            Column(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .center,
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .center,
+                                                              mainAxisSize:
+                                                                  MainAxisSize
+                                                                      .min,
+                                                              children: [
+                                                                IconButton(
+                                                                  icon: Icon(
+                                                                    Icons
+                                                                        .delete_forever_rounded,
+                                                                    size: 35,
+                                                                  ),
+                                                                  onPressed:
+                                                                      () {
+                                                                    Navigator.pop(
+                                                                        alert);
+                                                                    deleteAsupan(
+                                                                        snapshot.data[index]
+                                                                            [
+                                                                            'id']);
+                                                                  },
+                                                                ),
+                                                                Text("Hapus"),
+                                                              ],
+                                                            ),
+                                                          ],
                                                         ),
                                                         actions: [
                                                           TextButton(
@@ -273,19 +354,8 @@ class _DaftarAsupanState extends State<DaftarAsupan> {
                                                                 Navigator.pop(
                                                                     alert);
                                                               },
-                                                              child: Text(
-                                                                  "Batal")),
-                                                          TextButton(
-                                                              onPressed: () {
-                                                                Navigator.pop(
-                                                                    alert);
-                                                                deleteAsupan(
-                                                                    snapshot.data[
-                                                                            index]
-                                                                        ['id']);
-                                                              },
                                                               child:
-                                                                  Text("Hapus"))
+                                                                  Text("Batal"))
                                                         ],
                                                       );
                                                     })
@@ -306,27 +376,17 @@ class _DaftarAsupanState extends State<DaftarAsupan> {
                                                 height: 50,
                                                 width: 50,
                                               ),
-                                              title: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: [
-                                                  Text(
+                                              title: Text(
+                                                snapshot.data[index]['nama'] +
+                                                    ' (' +
                                                     snapshot.data[index]
-                                                            ['nama'] +
-                                                        ' (' +
-                                                        snapshot.data[index]
-                                                            ['merk'] +
-                                                        ')',
-                                                    style: TextStyle(
-                                                        color: Color.fromRGBO(
-                                                            5, 102, 106, 1),
-                                                        fontWeight:
-                                                            FontWeight.bold),
-                                                  ),
-                                                  Icon(Icons
-                                                      .favorite_border_rounded),
-                                                ],
+                                                        ['merk'] +
+                                                    ')',
+                                                style: TextStyle(
+                                                    color: Color.fromRGBO(
+                                                        5, 102, 106, 1),
+                                                    fontWeight:
+                                                        FontWeight.bold),
                                               ),
                                               subtitle: Column(
                                                 crossAxisAlignment:
@@ -339,7 +399,8 @@ class _DaftarAsupanState extends State<DaftarAsupan> {
                                                     child: Text(
                                                       'Ukuran perporsi: ' +
                                                           snapshot.data[index][
-                                                              'ukuran_perporsi'],
+                                                              'ukuran_perporsi'] +
+                                                          'g',
                                                     ),
                                                   ),
                                                   Row(
@@ -418,158 +479,99 @@ class _DaftarAsupanState extends State<DaftarAsupan> {
                   ListView(
                     shrinkWrap: true,
                     children: [
-                      Card(
-                        color: Colors.white.withOpacity(0.5),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                        child: InkWell(
-                          onTap: () {},
-                          borderRadius: BorderRadius.circular(10.0),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 6.0),
-                            child: ListTile(
-                              leading: Image.asset(
-                                'assets/images/cookies.png',
-                                height: 50,
-                                width: 50,
-                              ),
-                              title: Text(
-                                "Oatmeal (Quaker)",
-                                style: TextStyle(
-                                    color: Color.fromRGBO(5, 102, 106, 1),
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              subtitle: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(top: 3.0),
-                                    child: Text("Ukuran perporsi: 100g"),
-                                  ),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text("Kalori : 70.00kkal"),
-                                      Text("Karbohidrat : 12.00g"),
-                                    ],
-                                  ),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text("Lemak : 2.00g"),
-                                      Text("Protein : 2.00g"),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      Card(
-                        color: Colors.white.withOpacity(0.5),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                        child: InkWell(
-                          onTap: () {},
-                          borderRadius: BorderRadius.circular(10.0),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 6.0),
-                            child: ListTile(
-                              leading: Image.asset(
-                                'assets/images/cookies.png',
-                                height: 50,
-                                width: 50,
-                              ),
-                              title: Text(
-                                "Roti Gandum (Sari Roti)",
-                                style: TextStyle(
-                                    color: Color.fromRGBO(5, 102, 106, 1),
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              subtitle: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(top: 3.0),
-                                    child: Text("Ukuran perporsi: 100g"),
-                                  ),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text("Kalori : 70.00kkal"),
-                                      Text("Karbohidrat : 12.00g"),
-                                    ],
-                                  ),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text("Lemak : 2.00g"),
-                                      Text("Protein : 2.00g"),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      Card(
-                        color: Colors.white.withOpacity(0.5),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                        child: InkWell(
-                          onTap: () {},
-                          borderRadius: BorderRadius.circular(10.0),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 6.0),
-                            child: ListTile(
-                              leading: Image.asset(
-                                'assets/images/drink.png',
-                                height: 50,
-                                width: 50,
-                              ),
-                              title: Text(
-                                "Susu Kental Manis Coklat (Bendera)",
-                                style: TextStyle(
-                                    color: Color.fromRGBO(5, 102, 106, 1),
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              subtitle: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(top: 3.0),
-                                    child: Text("Ukuran perporsi: 100g"),
-                                  ),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text("Kalori : 70.00kkal"),
-                                      Text("Karbohidrat : 12.00g"),
-                                    ],
-                                  ),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text("Lemak : 2.00g"),
-                                      Text("Protein : 2.00g"),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
+                      FutureBuilder(
+                        future: getFavAsupan(),
+                        builder: (context, snapshot) {
+                          if (snapshot.hasError) print(snapshot.error);
+                          return snapshot.hasData
+                              ? ListView.builder(
+                                  shrinkWrap: true,
+                                  itemCount: snapshot.data.length,
+                                  itemBuilder: (context, index) {
+                                    return Card(
+                                      color: Colors.white.withOpacity(0.5),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(10.0),
+                                      ),
+                                      child: InkWell(
+                                        borderRadius:
+                                            BorderRadius.circular(10.0),
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 6.0),
+                                          child: ListTile(
+                                            leading: Image.asset(
+                                              snapshot.data[index]['jenis'] ==
+                                                      'Makanan'
+                                                  ? 'assets/images/cookies.png'
+                                                  : 'assets/images/drink.png',
+                                              height: 50,
+                                              width: 50,
+                                            ),
+                                            title: Text(
+                                              snapshot.data[index]['nama'] +
+                                                  ' (' +
+                                                  snapshot.data[index]['merk'] +
+                                                  ')',
+                                              style: TextStyle(
+                                                  color: Color.fromRGBO(
+                                                      5, 102, 106, 1),
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                            subtitle: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          top: 3.0),
+                                                  child: Text(
+                                                      'Ukuran perporsi: ' +
+                                                          snapshot.data[index][
+                                                              'ukuran_perporsi'] +
+                                                          'g'),
+                                                ),
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    Text('Kalori : ' +
+                                                        snapshot.data[index]
+                                                            ['kalori'] +
+                                                        'kkal'),
+                                                    Text('Karbohidrat : ' +
+                                                        snapshot.data[index]
+                                                            ['karbohidrat'] +
+                                                        'g'),
+                                                  ],
+                                                ),
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    Text('Lemak : ' +
+                                                        snapshot.data[index]
+                                                            ['lemak'] +
+                                                        'g'),
+                                                    Text('Protein : ' +
+                                                        snapshot.data[index]
+                                                            ['protein'] +
+                                                        'g'),
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  })
+                              : Center(child: CircularProgressIndicator());
+                        },
                       ),
                     ],
                   )
