@@ -25,31 +25,31 @@ class _CatatKaloriState extends State<CatatKalori> {
 
   Future getSelisihKalori() async {
     final response = await http.get(
-        "http://192.168.100.141/apicakal/public/index.php/TotalKaloriHarian/getSelisihKalori");
+        "http://10.0.2.2/apicakal/public/index.php/TotalKaloriHarian/getSelisihKalori");
     return json.decode(response.body);
   }
 
   Future getKaloriMakanan() async {
     final response = await http.get(
-        "http://192.168.100.141/apicakal/public/index.php/TotalKaloriHarian/getKaloriMakanan");
+        "http://10.0.2.2/apicakal/public/index.php/TotalKaloriHarian/getKaloriMakanan");
     return json.decode(response.body);
   }
 
   Future getKaloriKegiatan() async {
     final response = await http.get(
-        "http://192.168.100.141/apicakal/public/index.php/TotalKaloriHarian/getKaloriKegiatan");
+        "http://10.0.2.2/apicakal/public/index.php/TotalKaloriHarian/getKaloriKegiatan");
     return json.decode(response.body);
   }
 
   Future getSarapan() async {
     final response = await http.get(
-        "http://192.168.100.141/apicakal/public/index.php/CatatanSarapan/getSarapan");
+        "http://10.0.2.2/apicakal/public/index.php/CatatanSarapan/getSarapan");
     return json.decode(response.body);
   }
 
   Future getTotalKkalSarapan() async {
     final response = await http.get(
-        "http://192.168.100.141/apicakal/public/index.php/CatatanSarapan/getTotalKkalSarapan");
+        "http://10.0.2.2/apicakal/public/index.php/CatatanSarapan/getTotalKkalSarapan");
     return json.decode(response.body);
   }
 
@@ -57,19 +57,19 @@ class _CatatKaloriState extends State<CatatKalori> {
     setState(() {
       String idSarapan = $id;
       http.post(
-          "http://192.168.100.141/apicakal/public/index.php/CatatanSarapan/deleteSarapan/$idSarapan");
+          "http://10.0.2.2/apicakal/public/index.php/CatatanSarapan/deleteSarapan/$idSarapan");
     });
   }
 
   Future getMakanSiang() async {
     final response = await http.get(
-        "http://192.168.100.141/apicakal/public/index.php/CatatanMakansiang/getMakansiang");
+        "http://10.0.2.2/apicakal/public/index.php/CatatanMakansiang/getMakansiang");
     return json.decode(response.body);
   }
 
   Future getTotalKkalSiang() async {
     final response = await http.get(
-        "http://192.168.100.141/apicakal/public/index.php/CatatanMakansiang/getTotalKkalSiang");
+        "http://10.0.2.2/apicakal/public/index.php/CatatanMakansiang/getTotalKkalSiang");
     return json.decode(response.body);
   }
 
@@ -77,19 +77,19 @@ class _CatatKaloriState extends State<CatatKalori> {
     setState(() {
       String idSiang = $id;
       http.post(
-          "http://192.168.100.141/apicakal/public/index.php/CatatanMakansiang/deleteMakansiang/$idSiang");
+          "http://10.0.2.2/apicakal/public/index.php/CatatanMakansiang/deleteMakansiang/$idSiang");
     });
   }
 
   Future getMakanMalam() async {
     final response = await http.get(
-        "http://192.168.100.141/apicakal/public/index.php/CatatanMakanmalam/getMakanmalam");
+        "http://10.0.2.2/apicakal/public/index.php/CatatanMakanmalam/getMakanmalam");
     return json.decode(response.body);
   }
 
   Future getTotalKkalMalam() async {
     final response = await http.get(
-        "http://192.168.100.141/apicakal/public/index.php/CatatanMakanmalam/getTotalKkalMalam");
+        "http://10.0.2.2/apicakal/public/index.php/CatatanMakanmalam/getTotalKkalMalam");
     return json.decode(response.body);
   }
 
@@ -97,19 +97,19 @@ class _CatatKaloriState extends State<CatatKalori> {
     setState(() {
       String idMalam = $id;
       http.post(
-          "http://192.168.100.141/apicakal/public/index.php/CatatanMakanmalam/deleteMakanmalam/$idMalam");
+          "http://10.0.2.2/apicakal/public/index.php/CatatanMakanmalam/deleteMakanmalam/$idMalam");
     });
   }
 
   Future getCemilan() async {
     final response = await http.get(
-        "http://192.168.100.141/apicakal/public/index.php/CatatanCemilan/getCemilan");
+        "http://10.0.2.2/apicakal/public/index.php/CatatanCemilan/getCemilan");
     return json.decode(response.body);
   }
 
   Future getTotalKkalCemilan() async {
     final response = await http.get(
-        "http://192.168.100.141/apicakal/public/index.php/CatatanCemilan/getTotalKkalCemilan");
+        "http://10.0.2.2/apicakal/public/index.php/CatatanCemilan/getTotalKkalCemilan");
     return json.decode(response.body);
   }
 
@@ -117,19 +117,19 @@ class _CatatKaloriState extends State<CatatKalori> {
     setState(() {
       String idCemilan = $id;
       http.post(
-          "http://192.168.100.141/apicakal/public/index.php/CatatanCemilan/deleteCemilan/$idCemilan");
+          "http://10.0.2.2/apicakal/public/index.php/CatatanCemilan/deleteCemilan/$idCemilan");
     });
   }
 
   Future getKegiatan() async {
     final response = await http.get(
-        "http://192.168.100.141/apicakal/public/index.php/CatatanKegiatan/getCatKegiatan");
+        "http://10.0.2.2/apicakal/public/index.php/CatatanKegiatan/getCatKegiatan");
     return json.decode(response.body);
   }
 
   Future getTotalKkalKegiatan() async {
     final response = await http.get(
-        "http://192.168.100.141/apicakal/public/index.php/CatatanKegiatan/getTotalKkalKegiatan");
+        "http://10.0.2.2/apicakal/public/index.php/CatatanKegiatan/getTotalKkalKegiatan");
     return json.decode(response.body);
   }
 
@@ -137,20 +137,20 @@ class _CatatKaloriState extends State<CatatKalori> {
     setState(() {
       String idKegiatan = $id;
       http.post(
-          "http://192.168.100.141/apicakal/public/index.php/CatatanKegiatan/deleteCatKegiatan/$idKegiatan");
+          "http://10.0.2.2/apicakal/public/index.php/CatatanKegiatan/deleteCatKegiatan/$idKegiatan");
     });
   }
 
   Future getTotalMinum() async {
     final response = await http.get(
-        "http://192.168.100.141/apicakal/public/index.php/CatatanMinum/getTotalMinum");
+        "http://10.0.2.2/apicakal/public/index.php/CatatanMinum/getTotalMinum");
     return json.decode(response.body);
   }
 
   insertMinum250() {
     setState(() {
       http.post(
-          "http://192.168.100.141/apicakal/public/index.php/CatatanMinum/insertMinum",
+          "http://10.0.2.2/apicakal/public/index.php/CatatanMinum/insertMinum",
           body: {
             "porsi": "250",
           });
@@ -160,7 +160,7 @@ class _CatatKaloriState extends State<CatatKalori> {
   insertMinum500() {
     setState(() {
       http.post(
-          "http://192.168.100.141/apicakal/public/index.php/CatatanMinum/insertMinum",
+          "http://10.0.2.2/apicakal/public/index.php/CatatanMinum/insertMinum",
           body: {
             "porsi": "500",
           });
@@ -170,7 +170,7 @@ class _CatatKaloriState extends State<CatatKalori> {
   insertMinum1000() {
     setState(() {
       http.post(
-          "http://192.168.100.141/apicakal/public/index.php/CatatanMinum/insertMinum",
+          "http://10.0.2.2/apicakal/public/index.php/CatatanMinum/insertMinum",
           body: {
             "porsi": "1000",
           });
@@ -180,7 +180,7 @@ class _CatatKaloriState extends State<CatatKalori> {
   insertMinum1500() {
     setState(() {
       http.post(
-          "http://192.168.100.141/apicakal/public/index.php/CatatanMinum/insertMinum",
+          "http://10.0.2.2/apicakal/public/index.php/CatatanMinum/insertMinum",
           body: {
             "porsi": "1500",
           });

@@ -47,7 +47,7 @@ class _DaftarAsupanState extends State<DaftarAsupan> {
   insertSarapan() {
     setState(() {
       http.post(
-          "http://192.168.100.141/apicakal/public/index.php/CatatanSarapan/insertSarapan",
+          "http://10.0.2.2/apicakal/public/index.php/CatatanSarapan/insertSarapan",
           body: {});
     });
   }
